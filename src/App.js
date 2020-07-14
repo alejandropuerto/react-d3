@@ -10,7 +10,8 @@ function App() {
 
   useEffect(() => {
     //llamada a los datos de la API swapi.dev
-      axios.get('https://api.jikan.moe/v3/top/anime/1/upcoming')
+      //axios.get('https://anapioficeandfire.com/api/characters/') // game of thrones API
+      axios.get('https://api.jikan.moe/v3/top/anime/1/upcoming') //Top upcoming anime API
         .then((response) => {
           console.log(response.data)
           setTitles(response.data.results)
