@@ -12,7 +12,7 @@ function Graph(props){
 
     d3.select(canvas.current).select('svg').remove();
 
-    // to filter only the first 10 elements
+    // to filter only the first 10 elements from props.data
     /*const topData = d3.sort(function(a, b){
       return d3.descending(+a.members, +b.members);
     }).slice(0,10);*/
