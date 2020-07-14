@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react'; //hooks
+import axios from 'axios';
 import './App.css';
+import Graph from './Graph';
+//import PieGender from './PieGender';
 
 function App() {
+
+  const [titles, setTitles] = useState([]); // destructuring
+
+  useEffect(() => {
+    //llamada a los datos de la API swapi.dev
+      axios.get('https://api.jikan.moe/v3/top/anime/1/upcoming')
+        .then((response) => {
+          console.log(response.data)
+          setTitles(response.data.results)
+    })
+
+
+  },[]) // 1 parametro lo que va a ejecutar, 2 param cuando se va a ejecutar
+  //useEffect se va a ejecutar despues de que se pinta el html
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Graph data={titles}/>
     </div>
   );
 }
