@@ -6,15 +6,17 @@ import Graph from './Graph';
 
 function App() {
 
-  const [titles, setTitles] = useState([]); // destructuring
+  const [characters, setCharacters] = useState([]); // destructuring
 
   useEffect(() => {
     //llamada a los datos de la API swapi.dev
       //axios.get('https://anapioficeandfire.com/api/characters/') // game of thrones API
-      axios.get('https://api.jikan.moe/v3/top/anime/1/upcoming') //Top upcoming anime API
+      //axios.get('https://api.jikan.moe/v3/top/anime/1/upcoming') //Top upcoming anime API
+      //axios.get('https://pokeapi.co/api/v2/pokemon?limit=10&offset=210')
+      axios.get('https://swapi.dev/api/people/')
         .then((response) => {
           console.log(response.data)
-          setTitles(response.data.results)
+          setCharacters(response.data.results)
     })
 
 
@@ -23,7 +25,7 @@ function App() {
 
   return (
     <div className="App">
-      <Graph data={titles}/>
+      <Graph data={characters}/>
     </div>
   );
 }
