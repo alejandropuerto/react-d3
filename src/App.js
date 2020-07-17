@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react'; //hooks
 import axios from 'axios';
 import './App.css';
-import Graph from './Graph';
+//import Graph from './Graph';
+import GraphHorizontal from './Barplot-horizontal';
 //import PieGender from './PieGender';
 
 function App() {
