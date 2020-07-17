@@ -28,7 +28,7 @@ function Graph(props){
     const x = d3
       .scaleBand()
       .range([0, width])
-      .domain(props.data.map((d) => d.title))
+      .domain(props.data.map((d) => d.name))
       .padding(0.2)
     //agregando eje de X al canvas
     svg
@@ -39,7 +39,11 @@ function Graph(props){
       .attr("transform", `translate(-10, 0)rotate(-45)`)
       .style("text-anchor", "end")
 
-    const y = d3.scaleLinear().domain([0, d3.max((d)=>d.members)]).range([height, 0])
+    //const max_height = d3.max(props.data, function(d){return d.height});
+    //const min_height = d3.min(props.data, function(d){return d.height});
+    const max_height = d3.max(props.data.map(d => d.height).map(Number)); //Get the max height mapping strings to numbers
+    console.log(max_height);
+    const y = d3.scaleLinear().domain([0, max_height]).range([height, 0])
     //esto agrega el eje y al canvas
     svg.append("g").call(d3.axisLeft(y))
 
@@ -50,14 +54,14 @@ function Graph(props){
       .enter()
       .append("rect")
       .attr("x", function (d) {
-        return x(d.title);
+        return x(d.name);
       })
       .attr("y", (d) => {
-        return y(d.members);
+        return y(d.height);
       })
       .attr("width", x.bandwidth())
       .attr("height", (d) => {
-        return height - y(d.members);
+        return height - y(d.height);
       })
       .attr("fill", "#69b3a2");
   }, [props.data]);
