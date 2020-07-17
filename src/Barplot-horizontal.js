@@ -6,11 +6,11 @@ function GraphHorizontal(props){
 
   useEffect(() => {
 
-    const margin = {top:30, right:30, bottom:70, left:90};
-    const width = 460 - margin.left - margin.right;
-    const height = 400 - margin.top - margin.bottom;
-    const max_height = d3.max(props.data.map(d => d.height).map(Number)); //Get the max height mapping strings to numbers
-    console.log(max_height);
+    const margin = {top:30, right:30, bottom:70, left:300};
+    const width = 1000;
+    const height = 1000 - margin.top - margin.bottom;
+    const max_members = d3.max(props.data.map(d => d.members).map(Number));
+    console.log(max_members);
     d3.select(canvas.current).select('svg').remove();
 
     // to filter only the first 10 elements from props.data
@@ -25,11 +25,13 @@ function GraphHorizontal(props){
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`)
+
+
     //Eje X
     const x = d3
       .scaleLinear()
       .range([0, width])
-      .domain([0, max_height])
+      .domain([0, max_members])
     //agregando eje de X al canvas
     svg
       .append('g')
@@ -39,13 +41,20 @@ function GraphHorizontal(props){
       .attr("transform", `translate(-10, 0)rotate(-45)`)
       .style("text-anchor", "end")
 
+
+
     const y = d3
       .scaleBand()
-      .domain(props.data.map((d) => d.name))
+      .domain(props.data.map((d) => d.title))
       .range([0, height])
-      .padding(0.1)
+      .padding(0.3)
     //esto agrega el eje y al canvas
-    svg.append("g").call(d3.axisLeft(y))
+    svg
+      .append("g")
+      .call(d3.axisLeft(y))
+      .selectAll("text")
+      .attr("transform", `translate(-10, 0)`)
+      .style("text-anchor", "end")
 
     //Barras
     svg
@@ -53,16 +62,54 @@ function GraphHorizontal(props){
       .data(props.data)
       .enter()
       .append("rect")
-      //.attr("x", (d) => { return x(d.height); })
+      //.attr("x", (d) => { return x(d.height); }) swap this x for the one below for star wars api
       .attr("x", x(0))
       .attr("y", function (d) {
-          return y(d.name);
+          return y(d.title);
       })
       .attr("width", (d) => {
-        return x(d.height);
+        return x(d.members);
       })
       .attr("height", y.bandwidth())
       .attr("fill", "#69b3a2");
+
+      //add number of members labels on each bar
+      svg.selectAll(".text")
+    	  .data(props.data)
+    	  .enter()
+    	  .append("text")
+    	  .attr("class","label")
+    	  .attr("x", x(0))
+    	  .attr("y", function (d) {
+            return y(d.title);
+        })
+    	  .attr("dy", ".75em")
+    	  .text(function(d) { return d.members; });
+
+      //add titles
+      svg.append("text") //add X axis title
+        .attr("text-anchor", "end")
+        .attr("x", width - margin.left - margin.right)
+        .attr("y", height + margin.top + 30)
+        .text("Number of members that added the title to their list");
+
+      /*
+      svg.append("text") //add Y-axis title
+        .attr("text-anchor", "end")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -margin.left+20)
+        .attr("x", -margin.top)
+        .text("Y axis title")
+        */
+
+      svg.append("text")//add graph title
+          .attr("x", (width / 2))
+          .attr("y", 0 - (margin.top / 8))
+          .attr("text-anchor", "middle")
+          .style("font-size", "28px")
+          //.style("text-decoration", "underline")
+          .text("Top popular upcoming anime");
+
   }, [props.data]);
 
 
@@ -74,4 +121,12 @@ function GraphHorizontal(props){
   );
 
 }
+
 export default GraphHorizontal;
+
+/*
+code adapted from:
+https://bl.ocks.org/hrecht/f84012ee860cb4da66331f18d588eee3
+https://www.d3-graph-gallery.com/graph/barplot_horizontal.html
+http://www.cagrimmett.com/til/2016/04/26/responsive-d3-bar-chart.html
+*/
