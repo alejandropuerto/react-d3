@@ -26,7 +26,7 @@ function App() {
 
   return (
     <div className="App">
-      <Graph data={characters}/>
+      <GraphHorizontal data={characters}/>
     </div>
   );
 }
