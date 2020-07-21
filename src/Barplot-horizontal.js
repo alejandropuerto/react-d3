@@ -13,10 +13,10 @@ function GraphHorizontal(props){
     console.log(max_members);
     d3.select(canvas.current).select('svg').remove();
 
-    // to filter only the first 10 elements from props.data
-    /*const topData = d3.sort(function(a, b){
-      return d3.descending(+a.members, +b.members);
-    }).slice(0,10);*/
+    const x_width = (d) => {return x(d.members)}; //change for your x data width
+    const y_data = function (d) {return y(d.title)}; //change for your y data
+    const y_domain = props.data.map((d) => d.title); //change for your custom y values
+
 
     const svg = d3
       .select(canvas.current) //Busca un elemento en el html con la referencia canvas
@@ -45,7 +45,7 @@ function GraphHorizontal(props){
 
     const y = d3
       .scaleBand()
-      .domain(props.data.map((d) => d.title))
+      .domain(y_domain)
       .range([0, height])
       .padding(0.3)
     //esto agrega el eje y al canvas
@@ -64,15 +64,11 @@ function GraphHorizontal(props){
       .append("rect")
       //.attr("x", (d) => { return x(d.height); }) swap this x for the one below for star wars api
       .attr("x", x(0))
-      .attr("y", function (d) {
-          return y(d.title);
-      })
-      .attr("width", (d) => {
-        return x(d.members);
-      })
+      .attr("y", y_data)
+      .attr("width", x_width)
       .attr("height", y.bandwidth())
       .attr("fill", "#69b3a2");
-
+      /*
       //add number of members labels on each bar
       svg.selectAll(".text")
     	  .data(props.data)
@@ -85,6 +81,7 @@ function GraphHorizontal(props){
         })
     	  .attr("dy", ".75em")
     	  .text(function(d) { return d.members; });
+        */
 
       //add titles
       svg.append("text") //add X axis title
@@ -107,7 +104,7 @@ function GraphHorizontal(props){
           .attr("y", 0 - (margin.top / 8))
           .attr("text-anchor", "middle")
           .style("font-size", "28px")
-          //.style("text-decoration", "underline")
+          //.style("text-decoration", "underline") //to underline the title
           .text("Top popular upcoming anime");
 
   }, [props.data]);
