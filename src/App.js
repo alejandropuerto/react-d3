@@ -17,7 +17,7 @@ function App() {
       //axios.get('https://swapi.dev/api/people/')
         .then((response) => {
           console.log(response.data)
-          setCharacters(response.data.top)
+          setCharacters(response.data.top)//change .top for the data of your API
     })
 
 
