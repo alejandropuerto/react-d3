@@ -6,7 +6,7 @@ function GraphHorizontal(props){
 
   useEffect(() => {
 
-    const margin = {top:30, right:30, bottom:70, left:300};
+    const margin = {top:0, right:30, bottom:70, left:300};
     const width = 1000;
     const height = 1000 - margin.top - margin.bottom;
     const max_members = d3.max(props.data.map(d => d.members).map(Number));
@@ -87,7 +87,7 @@ function GraphHorizontal(props){
       svg.append("text") //add X axis title
         .attr("text-anchor", "end")
         .attr("x", width - margin.left - margin.right)
-        .attr("y", height + margin.top + 30)
+        .attr("y", height + margin.top + 65)
         .text("Number of members that added the title to their list");
 
       /*
@@ -98,14 +98,15 @@ function GraphHorizontal(props){
         .attr("x", -margin.top)
         .text("Y axis title")
         */
-
+      /*
       svg.append("text")//add graph title
-          .attr("x", (width / 2))
+          .attr("x", (width/2))
           .attr("y", 0 - (margin.top / 8))
           .attr("text-anchor", "middle")
           .style("font-size", "28px")
           //.style("text-decoration", "underline") //to underline the title
           .text("Top popular upcoming anime");
+          */
 
   }, [props.data]);
 
