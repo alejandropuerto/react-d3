@@ -25,8 +25,12 @@ function App() {
   //useEffect se va a ejecutar despues de que se pinta el html
 
   return (
+
     <div className="App">
+      <p class="title">Top upcoming anime</p>
+      <p class='subtitle'>as of July 31, 2020</p>
       <GraphHorizontal data={characters}/>
+      <p class="source">SOURCE: MyAnimeList.net</p>
     </div>
   );
 }
