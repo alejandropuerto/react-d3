@@ -2,7 +2,7 @@
 
 This project was made using React with Javascript and D3.js gathering data from the unofficial API from MyAnimeList.net "Jikan" to show the top upcoming anime.
 
-![Top upcoming anime](top upcoming anime.png)
+![Top upcoming anime](https://github.com/alejandropuerto/react-d3/blob/master/top%20upcoming%20anime.png)
 
 
 
